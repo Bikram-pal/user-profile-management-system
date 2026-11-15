@@ -33,6 +33,7 @@ A complete full-stack web application built with **React (Vite)**, **Node.js / E
 
 ```
 upms/
+├── DEPLOYMENT.md            # Complete free cloud deployment guide (Render + Vercel)
 ├── DATABASE_SETUP.md        # Comprehensive DB setup & troubleshooting guide
 ├── README.md                # Project documentation
 ├── server/
