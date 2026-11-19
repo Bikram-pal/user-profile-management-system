@@ -12,6 +12,11 @@ const { notFound, errorHandler } = require('./src/middleware/error');
 
 const app = express();
 
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET is not set');
+  process.exit(1);
+}
+
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -20,21 +25,27 @@ if (!fs.existsSync(uploadsDir)) {
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
-const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (
-        origin === clientUrl ||
-        origin.includes('localhost') ||
-        origin.endsWith('.vercel.app') ||
-        origin.endsWith('.onrender.com') ||
-        origin.endsWith('.netlify.app')
-      ) {
+      let originUrl;
+      try {
+        originUrl = new URL(origin);
+      } catch {
+        return callback(new Error('Origin not allowed by CORS'));
+      }
+
+      const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
+      const isVercelOrigin = originUrl.protocol === 'https:' && originUrl.hostname.endsWith('.vercel.app');
+      if (isLocalhost || isVercelOrigin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      return callback(null, true);
+      return callback(new Error('Origin not allowed by CORS'));
     },
     credentials: true,
   })

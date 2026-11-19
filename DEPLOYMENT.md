@@ -1,6 +1,6 @@
 # 🚀 Step-by-Step Deployment Guide for UPMS
 
-This guide walks you through deploying the complete **UPMS (User Profile Management System)** to the web for free using **Render** (Backend API), **Vercel** (Frontend UI), and **MongoDB Atlas** (Database).
+This guide walks you through deploying the complete **UPMS (User Profile Management System)** to the web using **Render** (Backend API), **Vercel** (Frontend UI), and **MongoDB Atlas** (Database). Render does not provide a managed MongoDB service in this setup, so MongoDB remains hosted by Atlas.
 
 ---
 
@@ -81,8 +81,8 @@ Before deploying to Render and Vercel, your code must be on GitHub.
 5. Scroll down to **Environment Variables** and add the following keys:
    | Key | Value |
    |---|---|
-   | `MONGO_URI` | `mongodb+srv://profileManagementSystem:QRU6vlnkexRwBsTT@cluster0.6fvxd5a.mongodb.net/profileManagementDB?retryWrites=true&w=majority` |
-   | `JWT_SECRET` | `upms_super_secret_jwt_key_2024_secure_and_random` |
+   | `MONGO_URI` | Your MongoDB Atlas connection string with the database name |
+   | `JWT_SECRET` | A newly generated, long random secret |
    | `JWT_EXPIRES_IN` | `7d` |
    | `NODE_ENV` | `production` |
 
@@ -145,3 +145,4 @@ Before deploying to Render and Vercel, your code must be on GitHub.
 - **Render Free Tier Spin-Down:** If inactive for 15 minutes, Render puts free services to sleep. The very first request after sleeping may take 30-40 seconds to wake up. Once awake, it responds with normal speed.
 - **Vercel Frontend:** Vercel frontend is always instant and globally distributed on edge CDN.
 - **MongoDB Atlas:** Free cluster is always on and does not sleep.
+

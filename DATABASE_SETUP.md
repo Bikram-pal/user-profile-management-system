@@ -46,15 +46,15 @@ Using MongoDB Atlas requires **no software installation** on your Windows comput
 6. Replace `<password>` with your Atlas password.
 7. Change the path to add the database name `/user_profile_db`, like this:
    ```
-   mongodb+srv://upms_admin:adminPass123@cluster0.xxxx.mongodb.net/user_profile_db?retryWrites=true&w=majority
+   mongodb+srv://<username>:<password>@<cluster-host>/<database>?retryWrites=true&w=majority
    ```
 
 ### Step 6: Paste into `server/.env`
 Open `server/.env` and update `MONGO_URI`:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://upms_admin:adminPass123@cluster0.xxxx.mongodb.net/user_profile_db?retryWrites=true&w=majority
-JWT_SECRET=upms_super_secret_jwt_key_2024_secure_and_random
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-host>/<database>?retryWrites=true&w=majority
+JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173
 ```
